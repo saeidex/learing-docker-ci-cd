@@ -1,0 +1,42 @@
+name: First Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  hello-world:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Say Hello
+        run: echo "Hello, World!"
+
+      - name: Create a file
+        run: echo "This is a new file created by the workflow." > newfile.txt
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add newfile.txt
+          git commit -m "Add newfile.txt"
+          git push
+      
+      - name: Show github context
+        run: echo "GitHub context: ${{ toJson(github) }}"
+
+      - name: List files
+        run: ls -la ${{ github.workspace }}
+
+      - name: Display current date and time
+        run: date
+
+      - name: Check disk space
+        run: df -h
+      
+      - name: Say Goodbye
+        run: echo "Goodbye, World!"
